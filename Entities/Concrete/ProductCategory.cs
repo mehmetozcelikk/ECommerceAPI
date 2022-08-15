@@ -2,9 +2,8 @@
 
 namespace Entities.Concrete
 {
-    public class ProductCategory : IEntity
+    public class ProductCategory : BaseEntity , IEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string? Size { get; set; }
         public string? Color { get; set; }
@@ -12,7 +11,6 @@ namespace Entities.Concrete
         public string? Brand { get; set; }
         public string? ScreenSize { get; set; }
         public string? OS { get; set; }
-        public bool IsActive { get; set; }
 
         public ICollection<Product> Product { get; set; }
 

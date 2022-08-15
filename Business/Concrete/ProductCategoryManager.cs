@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Business.Helper.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.ECommerceDTO;
@@ -24,40 +25,39 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
-        public ResultDTO<ProductCategoryDTO> CreateProductCategory(ProductCategoryDTO model)
+        public DataResult<ProductCategoryDTO> CreateProductCategory(ProductCategoryDTO model)
         {
             var mapper = _mapper.Map<ProductCategory>(model);
             _productCategoryDal.Add(mapper);
-            return new ResultDTO<ProductCategoryDTO> { Data = model, Success = true };
+            return new DataResult<ProductCategoryDTO> { Data = model, Success = true };
         }
 
-        public void DeleteProductCategory(string Id)
+        public Result DeleteProductCategory(string Id)
         {
-            ProductCategory productCategory = new();
-            productCategory.Id = Convert.ToInt32(Id);
+            var productCategory = _productCategoryDal.Get(i => i.Id == Convert.ToInt32(Id));
             productCategory.IsActive = false;
-            var product =_productDal.GetAll(x => x.Id == Convert.ToInt32(Id));
-            //_productDal.DeleteRange(product);
+            var product =_productDal.GetAll(x => x.ProductCategoryId == Convert.ToInt32(Id) && x.IsActive == true);
             foreach (var item in product)
             {
                 item.IsActive = false;
                 _productDal.Update(item);
             }
             _productCategoryDal.Update(productCategory);
+            return new Result { Success = true };
         }
 
-        public ResultDTO<List<ProductCategoryDTO>> GetProductCategory(string Name, string ProductAttributes)
+        public DataResult<List<ProductCategoryDTO>> GetProductCategory(string Name, string ProductAttributes)
         {
             var productvalue = _productCategoryDal.GetAll(x => x.Name == Name  || x.Color == ProductAttributes || x.Size == ProductAttributes);
             var mapper = _mapper.Map<List<ProductCategoryDTO>>(productvalue);
-            return new ResultDTO<List<ProductCategoryDTO>> { Data = mapper, Success = true };
+            return new DataResult<List<ProductCategoryDTO>> { Data = mapper, Success = true };
         }
 
-        public ResultDTO<ProductCategoryDTO> UpdateProductCategory(ProductCategoryDTO model)
+        public DataResult<ProductCategoryDTO> UpdateProductCategory(ProductCategoryDTO model)
         {
             var mapper = _mapper.Map<ProductCategory>(model);
             _productCategoryDal.Update(mapper);
-            return new ResultDTO<ProductCategoryDTO> { Data = model, Success = true };
+            return new DataResult<ProductCategoryDTO> {  Success = true };
         }
     }
 }

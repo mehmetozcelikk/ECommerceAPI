@@ -1,17 +1,13 @@
-﻿using Entities.ECommerceDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Business.Helper.Result;
+using Entities.ECommerceDTO;
 
 namespace Business.Abstract
 {
     public interface IProductCategoryService
     {
-        ResultDTO<ProductCategoryDTO> CreateProductCategory(ProductCategoryDTO model);
-        ResultDTO<ProductCategoryDTO> UpdateProductCategory(ProductCategoryDTO model);
-        ResultDTO<List<ProductCategoryDTO>> GetProductCategory(string Name, string ProductAttributes);
-        void DeleteProductCategory(string Id);
+        DataResult<ProductCategoryDTO> CreateProductCategory(ProductCategoryDTO model);
+        DataResult<ProductCategoryDTO> UpdateProductCategory(ProductCategoryDTO model);
+        DataResult<List<ProductCategoryDTO>> GetProductCategory(string Name, string ProductAttributes);
+        Result DeleteProductCategory(string Id);
     }
 }

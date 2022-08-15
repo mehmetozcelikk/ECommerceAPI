@@ -29,11 +29,11 @@ namespace ECommerce.API.Controllers
             var data = _productService.CreateProduct(model);
             return Ok(data);
         }
-        [HttpGet("DeleteProduct")]
+        [HttpDelete("DeleteProduct")]
         public ActionResult DeleteProduct(string Id)
         {
-            _productService.DeleteProduct(Id);
-            return Ok();
+            var result = _productService.DeleteProduct(Id);
+            return Ok(result);
         }
         [HttpPost("UpdateProduct")]
         public ActionResult UpdateProduct(ProductDTO model)

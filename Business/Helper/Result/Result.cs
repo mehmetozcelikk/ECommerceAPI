@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities.ECommerceDTO
+namespace Business.Helper.Result
 {
-    public class ResultDTO<T>
+    public class Result
     {
         public bool Success { get; set; }
         public string Message { get; set; }
-        public T Data { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }

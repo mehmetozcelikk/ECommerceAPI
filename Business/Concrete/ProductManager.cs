@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Business.Helper.Result;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.ECommerceDTO;
@@ -23,33 +24,33 @@ namespace Business.Concrete
             _mapper = mapper;
         }
 
-        public ResultDTO<ProductDTO> CreateProduct(ProductDTO model)
+        public DataResult<ProductDTO> CreateProduct(ProductDTO model)
         {
             var mapper = _mapper.Map<Product>(model);
             _productDal.Add(mapper);
-            return new ResultDTO<ProductDTO> { Data = model, Success = true };
+            return new DataResult<ProductDTO> { Data = model, Success = true };
         }
 
-        public void DeleteProduct(string Id)
+        public Result DeleteProduct(string Id)
         {
-            Product product = new();
-            product.Id = Convert.ToInt32(Id);
-            product.IsActive = false;
-            _productDal.Update(product);
+            var deletemodel = _productDal.Get(i => i.Id == Convert.ToInt32(Id));
+            deletemodel.IsActive = false;
+            _productDal.Update(deletemodel);
+            return new Result { Success=true };
         }
 
-        public ResultDTO<List<ProductDTO>> GetProduct(string Name, string CategoryName, string ProductAttributes, string PriceRange)
+        public DataResult<List<ProductDTO>> GetProduct(string Name, string CategoryName, string ProductAttributes, string PriceRange)
         {
             var productvaluedas = _productDal.GetProduct( Name,  CategoryName,  ProductAttributes,  PriceRange);
             var mapper = _mapper.Map<List<ProductDTO>>(productvaluedas);
-            return new ResultDTO<List<ProductDTO>>  { Data = mapper ,Success=true };
+            return new DataResult<List<ProductDTO>>  { Data = mapper ,Success=true };
         }
 
-        public ResultDTO<ProductDTO> UpdateProduct(ProductDTO model)
+        public DataResult<ProductDTO> UpdateProduct(ProductDTO model)
         {
             var mapper = _mapper.Map<Product>(model);
             _productDal.Update(mapper);
-            return new ResultDTO<ProductDTO> { Data = model, Success = true };
+            return new DataResult<ProductDTO> { Success = true };
 
         }
     }

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Entities.ECommerceDTO
 {
-    public class ProductCategoryDTO
+    public class ProductCategoryDTO : BaseDTO
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string? Size { get; set; }
         public string? Color { get; set; }
@@ -16,7 +15,6 @@ namespace Entities.ECommerceDTO
         public string? Brand { get; set; }
         public string? ScreenSize { get; set; }
         public string? OS { get; set; }
-        public bool IsActive { get; set; }
 
     }
 }

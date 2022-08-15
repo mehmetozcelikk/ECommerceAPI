@@ -30,13 +30,13 @@ namespace ECommerce.API.Controllers
             var data = _productCategoryService.CreateProductCategory(model);
             return Ok(data);
         }
-        [HttpGet("DeleteProductCategory")]
+        [HttpDelete("DeleteProductCategory")]
         public ActionResult DeleteProductCategory(string Id)
         {
             _productCategoryService.DeleteProductCategory(Id);
             return Ok();
         }
-        [HttpPost("UpdateProductCategory")]
+        [HttpPatch("UpdateProductCategory")]
         public ActionResult UpdateProductCategory(ProductCategoryDTO model)
         {
             var data = _productCategoryService.UpdateProductCategory(model);
