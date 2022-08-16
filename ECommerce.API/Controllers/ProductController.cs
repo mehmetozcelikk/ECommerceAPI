@@ -17,6 +17,8 @@ namespace ECommerce.API.Controllers
             _productService = productService;
         }
 
+
+
         [HttpGet("GetProduct")]
         public ActionResult GetProduct(string? Name, string? CategoryName, string? ProductAttributes, string? PriceRange)
         {
