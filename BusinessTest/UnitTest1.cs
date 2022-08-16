@@ -20,7 +20,8 @@ namespace BusinessTest
           IMapper mapper;
         public UnitTest1(
         //IProductService productService,
-        //IProductDal productDal, IProductCategoryDal productCategoryDal,
+        //IProductDal productDal,
+        //IProductCategoryDal productCategoryDal,
         //IMapper mapper
             )
         {
