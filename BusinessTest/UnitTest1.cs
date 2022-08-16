@@ -15,9 +15,9 @@ namespace BusinessTest
     public class UnitTest1
     {
         private readonly IProductService _productService;
-         readonly IProductDal productDal;
-         readonly IProductCategoryDal productCategoryDal;
-         readonly IMapper mapper;
+          IProductDal productDal;
+          IProductCategoryDal productCategoryDal;
+          IMapper mapper;
         public UnitTest1(
         //IProductService productService,
         //IProductDal productDal, IProductCategoryDal productCategoryDal,
@@ -37,7 +37,7 @@ namespace BusinessTest
             string ProductAttributes = "SS";
             string PriceRange = "1000";
 
-            var result =_productService.GetProduct(Name, CategoryName, null, null);
+            var result =_productService.GetProduct(Name, CategoryName, ProductAttributes, PriceRange);
             string Id = "2";
 
 
