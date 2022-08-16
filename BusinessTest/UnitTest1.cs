@@ -8,12 +8,26 @@ using Entities.Concrete;
 using Entities.ECommerceDTO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Xml.Linq;
 
 namespace BusinessTest
 {
     public class UnitTest1
     {
         private readonly IProductService _productService;
+         readonly IProductDal productDal;
+         readonly IProductCategoryDal productCategoryDal;
+         readonly IMapper mapper;
+        public UnitTest1(
+        //IProductService productService,
+        //IProductDal productDal, IProductCategoryDal productCategoryDal,
+        //IMapper mapper
+            )
+        {
+
+            _productService = new ProductManager(productDal, productCategoryDal, mapper);
+
+        }
 
         [Fact]
         public void Test1()
@@ -23,7 +37,7 @@ namespace BusinessTest
             string ProductAttributes = "SS";
             string PriceRange = "1000";
 
-            _productService.GetProduct(Name, CategoryName, ProductAttributes, PriceRange);  
+            var result =_productService.GetProduct(Name, CategoryName, null, null);
             string Id = "2";
 
 

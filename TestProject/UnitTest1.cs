@@ -31,7 +31,6 @@ namespace TestProject
             var service = new Mock<IProductService>();
             var controller = new ProductController(service.Object);
             var result = controller.GetProduct("test", "111", null, null);
-
             Assert.NotNull(result);
         }
     }

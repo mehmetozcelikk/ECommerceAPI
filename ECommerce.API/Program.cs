@@ -9,8 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Runtime.CompilerServices;
 using System.Text;
-//[assembly: InternalsVisibleTo("TestProject")]
 
+[assembly: InternalsVisibleTo("BusinessTest")]
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
