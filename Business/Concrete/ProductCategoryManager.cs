@@ -14,15 +14,16 @@ namespace Business.Concrete
 {
     public class ProductCategoryManager : IProductCategoryService
     {
-        IProductCategoryDal _productCategoryDal;
         IProductDal _productDal;
+        IProductCategoryDal _productCategoryDal;
         IMapper _mapper;
 
-        public ProductCategoryManager(IProductCategoryDal productCategoryDal, IMapper mapper, IProductDal productDal)
+        public ProductCategoryManager(IProductDal productDal,
+            IProductCategoryDal productCategoryDal, IMapper mapper)
         {
+            _productDal = productDal;
             _productCategoryDal = productCategoryDal;
             _mapper = mapper;
-            _productDal = productDal;
         }
 
         public DataResult<ProductCategoryDTO> CreateProductCategory(ProductCategoryDTO model)

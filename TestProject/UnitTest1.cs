@@ -1,7 +1,11 @@
 
+using AutoMapper;
 using Business.Abstract;
 using Business.Concrete;
+using Business.Helper.AutoMapperProfiles;
 using Business.Helper.Result;
+using DataAccess.Abstract;
+using DataAccess.Concrete.EntityFramework;
 using ECommerce.API.Controllers;
 using Entities.ECommerceDTO;
 using Moq;
@@ -11,9 +15,24 @@ namespace TestProject
     public class UnitTest1
     {
         private readonly IProductService productService;
+            private ProductManager ProductService;
 
-        public UnitTest1 ( )
+        public UnitTest1()
         {
+
+
+            EfProductDal dal = new EfProductDal();
+            EfProductCategoryDal dal2 = new EfProductCategoryDal();
+            var mockMapper = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new ProductProfile());
+                cfg.AddProfile(new ProductCategoryProfile());
+                cfg.AddProfile(new CustomProductProfile());
+            });
+            var mapper = mockMapper.CreateMapper();
+
+            ProductService = new ProductManager(dal, dal2, mapper);
+
         }
 
         [Fact]
@@ -23,15 +42,8 @@ namespace TestProject
             string CategoryName = "111";
             string ProductAttributes = "SS";
             string PriceRange = "1000";
-            //ProductController productControllera = new(productService);
-            string Id = "2";
-            //productControllera.GetProduct(Name,null,null,null);
-            //productService.GetProduct(Name, null, null, null);
 
-            var service = new Mock<IProductService>();
-            var controller = new ProductController(service.Object);
-            var result = controller.GetProduct("test", "111", null, null);
-            Assert.NotNull(result);
+            var result = ProductService.GetProduct(Name, null, null, null);
         }
     }
 }

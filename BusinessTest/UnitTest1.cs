@@ -1,33 +1,29 @@
 using AutoMapper;
 using Business.Abstract;
 using Business.Concrete;
+using Business.Helper.AutoMapperProfiles;
 using Business.Helper.Result;
 using DataAccess.Abstract;
-using ECommerce.API.Controllers;
-using Entities.Concrete;
-using Entities.ECommerceDTO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System.Xml.Linq;
+
 
 namespace BusinessTest
 {
     public class UnitTest1
     {
-        private readonly IProductService _productService;
-          IProductDal productDal;
-          IProductCategoryDal productCategoryDal;
-          IMapper mapper;
-        public UnitTest1(
-        //IProductService productService,
-        //IProductDal productDal,
-        //IProductCategoryDal productCategoryDal,
-        //IMapper mapper
-            )
+        private  IProductService ProductService;
+
+        private IProductCategoryDal _productCategoryDal;
+        private IProductDal _productDal;
+        private IMapper _mapper;
+        public UnitTest1(IProductDal productDal, IProductCategoryDal productCategoryDal, IMapper mapper1)
         {
 
-            _productService = new ProductManager(productDal, productCategoryDal, mapper);
+            _productCategoryDal = productCategoryDal;
+            _productDal = productDal;
+            _mapper = mapper1;
 
+
+            ProductService = new ProductManager(_productDal, _productCategoryDal, _mapper);
         }
 
         [Fact]
@@ -38,7 +34,8 @@ namespace BusinessTest
             string ProductAttributes = "SS";
             string PriceRange = "1000";
 
-            var result =_productService.GetProduct(Name, CategoryName, ProductAttributes, PriceRange);
+            var result = ProductService.GetProduct(Name, null, null, null);
+            
             string Id = "2";
 
 
