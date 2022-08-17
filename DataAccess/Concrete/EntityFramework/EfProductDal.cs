@@ -27,10 +27,15 @@ namespace DataAccess.Concrete.EntityFramework
                 query = query.Where(x => x.ProductCategory.Size == ProductAttributes || x.ProductCategory.Color == ProductAttributes);
             }
 
-            if (null != PriceRange)
-                query = query.Where(x => x.Price <= Convert.ToInt64(PriceRange));
+            if (null != PriceRange) {
+                    string[] parts = PriceRange.Split('-');
 
-            return query.ToList();
+                    query = query.Where(x => x.Price >= Convert.ToInt64(parts[0]) && x.Price <= Convert.ToInt64(parts[1]));
+
+                    //query = query.Where(x => x.Price <= Convert.ToInt64(PriceRange));
+                }
+
+                return query.ToList();
 
             }
 

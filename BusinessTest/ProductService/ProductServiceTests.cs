@@ -19,18 +19,20 @@ namespace BusinessTest.ProductService
             _mapper = mapper1;
             productService = new ProductManager(_productDal, _productCategoryDal, _mapper);
         }
+
         [Fact]
         public void GetProduct()
         {
             string Name = "test";
             string CategoryName = "111";
             string ProductAttributes = "SS";
-            string PriceRange = "1000";
+            string PriceRange = "500";
 
             var result = productService.GetProduct(Name, null, null, null);
 
             Assert.NotNull(result);
         }
+
         [Fact]
         public void DeleteProduct()
         {
@@ -39,6 +41,7 @@ namespace BusinessTest.ProductService
 
             Assert.Equal(true, result.Success);
         }
+
         [Fact]
         public void UpdateProduct()
         {
@@ -53,9 +56,8 @@ namespace BusinessTest.ProductService
             var result = productService.UpdateProduct(productDTO);
 
             Assert.Equal(true, result.Success);
-
-
         }
+
         [Fact]
         public void CreateProduct()
         {

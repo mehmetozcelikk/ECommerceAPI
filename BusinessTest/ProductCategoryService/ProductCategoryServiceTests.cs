@@ -27,6 +27,7 @@ namespace BusinessTest.ProductCategoryService
             productCategoryService = new ProductCategoryManager(_productDal, _productCategoryDal, _mapper);
 
         }
+
         [Fact]
         public void GetProductCategory()
         {
@@ -35,6 +36,7 @@ namespace BusinessTest.ProductCategoryService
             var result = productCategoryService.GetProductCategory(Name , ProductAttributes);
             Assert.NotNull(result);
         }
+
         [Fact]
         public void DeleteProductCategory()
         {
@@ -43,6 +45,7 @@ namespace BusinessTest.ProductCategoryService
 
             Assert.Equal(true, result.Success);
         }
+
         [Fact]
         public void UpdateProductCategory()
         {
@@ -61,8 +64,8 @@ namespace BusinessTest.ProductCategoryService
             var result = productCategoryService.UpdateProductCategory(productCategoryDTO);
 
             Assert.Equal(true, result.Success);
-
         }
+
         [Fact]
         public void CreateProductCategory()
         {
@@ -80,7 +83,6 @@ namespace BusinessTest.ProductCategoryService
             var result = productCategoryService.CreateProductCategory(productCategoryDTO);
             var expected = productCategoryDTO;
             Assert.Equal(expected, result.Data);
-
         }
     }
 }
