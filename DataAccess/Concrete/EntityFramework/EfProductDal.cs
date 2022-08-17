@@ -10,6 +10,30 @@ namespace DataAccess.Concrete.EntityFramework
     {
         public List<Product> GetProduct(string Name, string CategoryName, string ProductAttributes, string PriceRange)
         {
+
+            using (var context = new DataContext())
+            { 
+            IQueryable<Product> query = context.Products;
+            query = query.Include(x => x.ProductCategory);
+
+            if (null != Name) 
+              query = query.Where(x => x.Name == Name);
+            
+            if (null != CategoryName)
+                query = query.Where(x => x.ProductCategory.Name == CategoryName);
+
+            if (null != ProductAttributes)
+            {
+                query = query.Where(x => x.ProductCategory.Size == ProductAttributes || x.ProductCategory.Color == ProductAttributes);
+            }
+
+            if (null != PriceRange)
+                query = query.Where(x => x.Price <= Convert.ToInt64(PriceRange));
+
+            return query.ToList();
+
+            }
+
             //if (null != ProductAttributes)
             //{
             //    using (var context = new DataContext())
@@ -29,27 +53,6 @@ namespace DataAccess.Concrete.EntityFramework
 
             //    return productvalue;
             //}
-
-            var context2 = new DataContext();
-            IQueryable<Product> query = context2.Products;
-            query = query.Include(x => x.ProductCategory);
-
-            if (null != Name) 
-              query = query.Where(x => x.Name == Name);
-            
-            if (null != CategoryName)
-                query = query.Where(x => x.ProductCategory.Name == CategoryName);
-
-            if (null != ProductAttributes)
-            {
-                query = query.Where(x => x.ProductCategory.Size == ProductAttributes || x.ProductCategory.Color == ProductAttributes);
-            }
-
-            if (null != PriceRange)
-                query = query.Where(x => x.Price <= Convert.ToInt64(PriceRange));
-
-            return query.ToList();
-
         }
     }
 }
