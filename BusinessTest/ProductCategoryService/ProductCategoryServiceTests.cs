@@ -5,9 +5,11 @@ using DataAccess.Abstract;
 using Entities.ECommerceDTO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace BusinessTest.ProductCategoryService
 {
@@ -28,61 +30,74 @@ namespace BusinessTest.ProductCategoryService
 
         }
 
-        [Fact]
-        public void GetProductCategory()
+        [Theory]
+        [MemberData(nameof(getDatas))]
+        public void GetProductCategoryTest(string Name ,string ProductAttributes)
         {
-            string Name = "111";
-            string ProductAttributes = "SS";
+
             var result = productCategoryService.GetProductCategory(Name , ProductAttributes);
             Assert.NotNull(result);
         }
 
-        [Fact]
-        public void DeleteProductCategory()
+        [Theory]
+        [InlineData("2")]
+        public void DeleteProductCategoryTest(string Id)
         {
-            string Id = "11";
             var result = productCategoryService.DeleteProductCategory(Id);
 
             Assert.Equal(true, result.Success);
         }
 
-        [Fact]
-        public void UpdateProductCategory()
+        [Theory]
+        [MemberData(nameof(updateDatas))]
+        public void UpdateProductCategoryTest(int Id ,string Name, string Size, string Color, string ScreenSize, string Gender, string OS, string Brand, bool IsActive)
         {
             ProductCategoryDTO productCategoryDTO = new()
             {
-                Id =  11 ,
-                Name = "testupdate",
-                Size = "testSizeupdate",
-                Color = "testColorupdate",
-                ScreenSize = "testScreensizeupdate",
-                Gender = "testGenderupdate",
-                OS = "testOSupdate",
-                Brand= "testBrandupdate",
-                IsActive = true,
+                Id =  Id ,
+                Name = Name,
+                Size = Size,
+                Color = Color,
+                ScreenSize = ScreenSize,
+                Gender = Gender,
+                OS = OS,
+                Brand = Brand,
+                IsActive = IsActive,
             };
             var result = productCategoryService.UpdateProductCategory(productCategoryDTO);
 
             Assert.Equal(true, result.Success);
         }
 
-        [Fact]
-        public void CreateProductCategory()
+        [Theory]
+        [MemberData(nameof(createDatas) )]
+        public void CreateProductCategoryTest(string Name , string Size , string Color , string ScreenSize , string Gender , string OS , string Brand , bool IsActive)
         {
             ProductCategoryDTO productCategoryDTO = new()
             {
-                Name = "testCreate",
-                Size = "testSizeCreate",
-                Color = "testColorCreate",
-                ScreenSize = "testScreensizeCreate",
-                Gender = "testGenderCreate",
-                OS = "testOSCreate",
-                Brand = "testBrandCreate",
-                IsActive = true,
+                Name = Name,
+                Size = Size,
+                Color = Color,
+                ScreenSize = ScreenSize,
+                Gender = Gender,
+                OS = OS,
+                Brand = Brand,
+                IsActive = IsActive,
             };
             var result = productCategoryService.CreateProductCategory(productCategoryDTO);
             var expected = productCategoryDTO;
             Assert.Equal(expected, result.Data);
         }
+
+        public static IEnumerable<object[]> getDatas => new List<object[]> {
+         new object[]{  "111", "SS" }
+                                             };
+        public static IEnumerable<object[]> createDatas => new List<object[]> {
+         new object[]{ "testCreate", "testSizeCreate", "testColorCreate" , "testScreensizeCreate" , "testGenderCreate" , "testOSCreate" , "testBrandCreate" ,true }
+                                             };
+        public static IEnumerable<object[]> updateDatas => new List<object[]> {
+         new object[]{2, "testUpdate", "testSizeUpdate", "testColorUpdate", "testScreensizeUpdate", "testGenderUpdate", "testOSUpdate", "testBrandUpdate", true }
+                                             };
+
     }
 }

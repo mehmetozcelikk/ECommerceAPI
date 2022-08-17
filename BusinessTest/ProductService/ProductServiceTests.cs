@@ -3,6 +3,7 @@ using Business.Abstract;
 using Business.Concrete;
 using DataAccess.Abstract;
 using Entities.ECommerceDTO;
+using Xunit;
 
 namespace BusinessTest.ProductService
 {
@@ -20,34 +21,32 @@ namespace BusinessTest.ProductService
             productService = new ProductManager(_productDal, _productCategoryDal, _mapper);
         }
 
-        [Fact]
-        public void GetProduct()
+        [Theory]
+        [MemberData(nameof(getDatas))]
+        public void GetProductTest(string Name , string CategoryName, string ProductAttributes , string PriceRange)
         {
-            string Name = "test";
-            string CategoryName = "111";
-            string ProductAttributes = "SS";
-            string PriceRange = "500";
 
             var result = productService.GetProduct(Name, null, null, null);
 
-            Assert.NotNull(result);
+            Assert.NotNull(result.Data);
         }
 
-        [Fact]
-        public void DeleteProduct()
+        [Theory]
+        [InlineData("2")]
+        public void DeleteProductTest(string Id)
         {
-            string Id = "2";
             var result = productService.DeleteProduct(Id);
 
             Assert.Equal(true, result.Success);
         }
 
-        [Fact]
-        public void UpdateProduct()
+        [Theory]
+        [MemberData(nameof(updateDatas))]
+        public void UpdateProductTest(int Id ,string name, int productCategoryId, float price, bool IsActive)
         {
             ProductDTO productDTO = new()
             {
-                Id = 2,
+                Id = Id,
                 Name = "testupdate",
                 ProductCategoryId =2,
                 Price = 1000,
@@ -58,21 +57,32 @@ namespace BusinessTest.ProductService
             Assert.Equal(true, result.Success);
         }
 
-        [Fact]
-        public void CreateProduct()
+        [Theory]
+        [MemberData(nameof(createDatas))]
+        public void CreateProductTest(string name, int productCategoryId ,float price, bool IsActive)
         {
             ProductDTO productDTO = new()
             {
-                Name = "testcreate",
-                ProductCategoryId = 2,
-                Price = 1000,
-                IsActive = true,
+                Name = name,
+                ProductCategoryId = productCategoryId,
+                Price = price,
+                IsActive = IsActive,
             };
 
             var result = productService.CreateProduct(productDTO);
 
             var expected = productDTO;
-            Assert.Equal(expected, result.Data);
+            Assert.Equal(productDTO, result.Data);
         }
+
+        public static IEnumerable<object[]> getDatas => new List<object[]> {
+         new object[]{ "test", "111", "SS" , "400-600" }
+                                             };
+        public static IEnumerable<object[]> createDatas => new List<object[]> {
+         new object[]{ "testCreate", 2, 1000 , true }
+                                             };
+        public static IEnumerable<object[]> updateDatas => new List<object[]> {
+         new object[]{2, "testUpdate", 2, 1000 , true }
+                                             };
     }
 }

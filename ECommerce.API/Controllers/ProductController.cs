@@ -37,7 +37,7 @@ namespace ECommerce.API.Controllers
             var result = _productService.DeleteProduct(Id);
             return Ok(result);
         }
-        [HttpPost("UpdateProduct")]
+        [HttpPatch("UpdateProduct")]
         public ActionResult UpdateProduct(ProductDTO model)
         {
             var data = _productService.UpdateProduct(model);
