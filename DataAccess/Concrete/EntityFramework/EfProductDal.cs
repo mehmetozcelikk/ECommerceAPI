@@ -3,6 +3,7 @@ using Entities.Concrete;
 using Entities.ECommerceDTO;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DataAccess.Concrete.EntityFramework
 {
@@ -35,10 +36,43 @@ namespace DataAccess.Concrete.EntityFramework
                     //query = query.Where(x => x.Price <= Convert.ToInt64(PriceRange));
                 }
 
-                return query.ToList();
+                //return query.ToList();
 
             }
+            string[] parts2 = new string[2];
+            if (null != PriceRange)
+               parts2= PriceRange.Split('-');
 
+            using (var context2 = new DataContext())
+            {
+
+                var querydeneme = from p in context2.Products.DefaultIfEmpty()
+                             join c in context2.ProductCategories
+                             on p.ProductCategoryId equals c.Id
+                             //join in context2.Products
+                             //on c.Id equals c.Id
+
+                             where p.Name == Name ||c.Name == CategoryName  
+                             || c.Size == ProductAttributes || c.Color == ProductAttributes 
+                             ||(p.Price >= Convert.ToInt64(parts2[0]) && p.Price <= Convert.ToInt64(parts2[1]))
+                             where p.IsActive == true 
+                             select new Product
+                             {
+                                 Name = p.Name,
+                                 Price = Convert.ToInt64(p.Price),
+                                 ProductCategoryId = p.ProductCategoryId,
+                                 ProductCategory = c
+                             };
+                //  IQueryable<Product> deneme2 = context2.Products;
+                //var query2 = context2.ProductCategories.Where(i => i.Name == Name);
+                //var query3 = context2.Products.Where(i => i.Name == Name);
+
+                //var joinn = deneme2.Join(deneme2,  query2,  i => i.Name == Name, (deneme2,query2)=> new {deneme2 , query2}).Where(o=>o.);
+                //var join = query1.Join(query2, x => x.ParentId, y => y.ParentId, (query1, query2) => new { query1, query2 }).Where(o => o.query1.ProdId == o.qyuery2.prodId).......
+
+                return querydeneme.ToList();
+
+            }
             //if (null != ProductAttributes)
             //{
             //    using (var context = new DataContext())

@@ -42,7 +42,10 @@ namespace Business.Concrete
         public DataResult<List<ProductDTO>> GetProduct(string Name, string CategoryName, string ProductAttributes, string PriceRange)
         {
             var productvaluedas = _productDal.GetProduct( Name,  CategoryName,  ProductAttributes,  PriceRange);
+            if (productvaluedas.Count == 0)
+                return new DataResult<List<ProductDTO>> { Data = null, Success = true, Message = "Aradıgınız kriterde ürün bulunamadı." };
             var mapper = _mapper.Map<List<ProductDTO>>(productvaluedas);
+
             return new DataResult<List<ProductDTO>>  { Data = mapper ,Success=true };
         }
 
