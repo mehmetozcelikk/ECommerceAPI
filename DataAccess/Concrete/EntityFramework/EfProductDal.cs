@@ -2,6 +2,7 @@
 using Entities.Concrete;
 using Entities.ECommerceDTO;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -34,6 +35,14 @@ namespace DataAccess.Concrete.EntityFramework
 
                 //return query.ToList();
             }
+
+            string search = "lookforme";
+            List<string> myList = new List<string>();
+            string result = myList.Single(s => s == search);
+
+            IEnumerable<string> results = myList.Where(s => s == search);
+
+
 
 
             string[] parts2 = new string[2];
