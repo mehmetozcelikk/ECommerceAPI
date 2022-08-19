@@ -48,7 +48,7 @@ namespace DataAccess.Concrete.EntityFramework
 
 
                                   where null != Name ? p.Name == Name : null == null
-                                  where  null != CategoryName ? c.Name == CategoryName : null ==null
+                                  where null != CategoryName ? c.Name == CategoryName : null == null
                                   where null != ProductAttributes ? (c.Size == ProductAttributes || c.Color == ProductAttributes) : null == null
                                   where null != PriceRange ? (p.Price >= Convert.ToInt64(parts2[0]) && p.Price <= Convert.ToInt64(parts2[1])) : null == null
 
