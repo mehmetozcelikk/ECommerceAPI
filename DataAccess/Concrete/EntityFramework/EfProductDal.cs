@@ -50,10 +50,12 @@ namespace DataAccess.Concrete.EntityFramework
                                   on p.ProductCategoryId equals c.Id
 
                                   where null != Name ? p.Name.Contains(Name) : true
+                                  where null != CategoryName ? c.Name.Contains(CategoryName) : true
+                                  where null != ProductAttributes ? (c.Size.Contains(ProductAttributes) || c.Color.Contains(ProductAttributes)) : true
 
                                   //where null != Name ? p.Name == Name : true
-                                  where null != CategoryName ? c.Name == CategoryName : true
-                                  where null != ProductAttributes ? (c.Size == ProductAttributes || c.Color == ProductAttributes) : true
+                                  //where null != CategoryName ? c.Name == CategoryName : true
+                                  //where null != ProductAttributes ? (c.Size == ProductAttributes || c.Color == ProductAttributes) : true
                                   where null != PriceRange ? (p.Price >= Convert.ToInt64(parts2[0]) && p.Price <= Convert.ToInt64(parts2[1])) : true
 
                                   select new Product
