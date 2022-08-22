@@ -36,12 +36,6 @@ namespace DataAccess.Concrete.EntityFramework
                 //return query.ToList();
             }
 
-            string search = "lookforme";
-            List<string> myList = new List<string>();
-            string result = myList.Single(s => s == search);
-
-            IEnumerable<string> results = myList.Where(s => s == search);
-
 
 
 
@@ -55,8 +49,9 @@ namespace DataAccess.Concrete.EntityFramework
                                   join c in context2.ProductCategories
                                   on p.ProductCategoryId equals c.Id
 
+                                  where null != Name ? p.Name.Contains(Name) : true
 
-                                  where null != Name ? p.Name == Name : true
+                                  //where null != Name ? p.Name == Name : true
                                   where null != CategoryName ? c.Name == CategoryName : true
                                   where null != ProductAttributes ? (c.Size == ProductAttributes || c.Color == ProductAttributes) : true
                                   where null != PriceRange ? (p.Price >= Convert.ToInt64(parts2[0]) && p.Price <= Convert.ToInt64(parts2[1])) : true
